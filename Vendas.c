@@ -1,9 +1,10 @@
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <locale.h>
 
 void titulo();
 
-struct Vendas {
+struct Venda {
     int codigo;
     char nome_produto[100];
     char marca[100];
@@ -11,7 +12,7 @@ struct Vendas {
     int preco_unitario;
     float preco_total;
     float desconto;
-} venda;
+};
 
 // Função titulo
 void titulo() {
@@ -26,7 +27,10 @@ void titulo() {
     printf("| Lucas Suares da Silva             |\n");
     printf("|-----------------------------------|\n\n");
 }
-void registrar_Vendas() {
+
+struct Venda registrar_Vendas() {
+    struct Venda venda;
+
     printf("Registrar Vendas: \n\n");
     printf("Codigo: ");
     scanf("%d", &venda.codigo);
@@ -44,13 +48,39 @@ void registrar_Vendas() {
     printf("\nPreço Unitário: ");
     scanf("%d", &venda.preco_unitario);
 
-    venda.preco_total = venda.qtd_itens * venda.preco_unitario;
+    venda.preco_total = (float) (venda.qtd_itens * venda.preco_unitario);
     printf("\nPreço total: %.2f\n", venda.preco_total);
+
+    return venda;
 }
 
 int main() {
+    setlocale(LC_ALL, "Portuguese");
+    
     titulo(); 
-    registrar_Vendas();
+
+    int opcao;
+
+    do {
+        printf("\nMenu:\n");
+        printf("1. Cadastrar nova venda\n");
+        printf("2. Finalizar venda\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                system("CLS");
+                registrar_Vendas();
+                system("CLS");
+                break;
+            case 2:
+                printf("\nFinalizando o programa.\n");
+                break;
+            default:
+                printf("\nOpção inválida. Escolha novamente.\n");
+        }
+    } while (opcao != 2);
     
     return 0;
 }

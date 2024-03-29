@@ -81,6 +81,74 @@ int main() {
                 printf("\nOpção inválida. Escolha novamente.\n");
         }
     } while (opcao != 2);
+
+
     
+void encontrar_mais_vendido(struct Venda *vendas, int num_vendas) {
+    int vendas_por_produto[num_vendas];
+    for (int i = 0; i < num_vendas; i++) {
+        vendas_por_produto[i] = contar_vendas_por_produto(vendas, num_vendas, vendas[i].codigo);
+    }
+
+    int index_mais_vendido = encontrar_max_index(vendas_por_produto, num_vendas);
+    printf("O item mais vendido é: %s (Marca: %s) com um total de %d itens vendidos.\n",
+           vendas[index_mais_vendido].nome_produto,
+           vendas[index_mais_vendido].marca,
+           vendas_por_produto[index_mais_vendido]);
+}
+
+void encontrar_menos_vendido(struct Venda *vendas, int num_vendas) {
+    int vendas_por_produto[num_vendas];
+    for (int i = 0; i < num_vendas; i++) {
+        vendas_por_produto[i] = contar_vendas_por_produto(vendas, num_vendas, vendas[i].codigo);
+    }
+    int index_menos_vendido = encontrar_min_index(vendas_por_produto, num_vendas);
+    printf("O item menos vendido é: %s (Marca: %s) com um total de %d itens vendidos.\n",
+           vendas[index_menos_vendido].nome_produto,
+           vendas[index_menos_vendido].marca,
+           vendas_por_produto[index_menos_vendido]);
+}
+int encontrar_max_index(int *array, int size) {
+    int max = array[0];
+    int index = 0;
+    for (int i = 1; i < size; i++) {
+        if (array[i] > max) {
+            max = array[i];
+            index = i;
+        }
+    }
+    return index;
+}
+int encontrar_min_index(int *array, int size) {
+    int min = array[0];
+    int index = 0;
+    for (int i = 1; i < size; i++) {
+        if (array[i] < min) {
+            min = array[i];
+            index = i;
+        }
+    }
+    return index;
+}
+int calcular_quantidade_clientes(struct Venda *vendas, int num_vendas) {
+    int clientes[num_vendas]; 
+    int contador_clientes = 0;
+    for (int i = 0; i < num_vendas; i++) {
+        int codigo_cliente_atual = vendas[i].codigo;
+        int cliente_ja_registrado = 0;
+        for (int j = 0; j < contador_clientes; j++) {
+            if (clientes[j] == codigo_cliente_atual) {
+                cliente_ja_registrado = 1;
+                break;
+            }
+        }
+        if (!cliente_ja_registrado) {
+            clientes[contador_clientes] = codigo_cliente_atual;
+            contador_clientes++;
+        }
+    }
+    return contador_clientes;
+}
+
     return 0;
 }
